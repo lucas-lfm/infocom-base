@@ -26,10 +26,9 @@ function App() {
 
   return (
     <main>
-       {/* se error for verdadeiro (true), exibe mensagem de erro */}
+       
       { error && <div className="error">{error}</div> }
 
-      {/* se loading for true, exibe uma mensagem de carregamento, se for false renderiza os componentes ProductList e Button */}
       { loading ? (
         <div>Carregando...</div>
       ) : (
@@ -38,11 +37,10 @@ function App() {
           <Button
             onClick={handleLoadMore}
             disabled={visibleCount >= products.length}
-            style={visibleCount >= products.length ? {backgroundColor: "#cccccc"} : {}}
+            variant="outline"
+            id="load-more"
           >
-            {/* se a quantidade de itens visíveis for igual ou maior do que o tamanho da lista de produtos, 
-            significa que todos os produtos já foram exibidos, entáo o botão passa a ter o texto "Fim dos produtos", 
-            senão... exibe "Carregar Mais" */}
+            
             { visibleCount >= products.length
               ? 'Fim dos produtos'
               : 'Carregar Mais' }
