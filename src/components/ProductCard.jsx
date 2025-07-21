@@ -6,7 +6,7 @@ function ProductCard({ product }) {
       <img src={product.image} alt={product.title} />
       <h3>{product.title}</h3>
       <div className="price">
-        R$ {product.price.toFixed(2).replace(".", ",")}
+        R$ {product.price.toFixed(2).replace('.', ',')}
       </div>
     </div>
   );
