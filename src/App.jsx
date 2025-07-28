@@ -1,8 +1,9 @@
-import { useEffect, useState } from 'react'
+import { useEffect, useMemo, useState } from 'react'
 import ProductList from  './components/ProductList';
 import Button from './components/Button';
 import './App.css';
 import NavBar from './components/NavBar';
+import SearchProduct from './components/SearchProduct';
 
 const ITEMS_PER_PAGE = 8;
 
@@ -12,6 +13,8 @@ function App() {
   const [error, setError]            = useState(null);        // mensagem de erro
   const [visibleCount, setVisibleCount]   = useState(ITEMS_PER_PAGE); // quantos estão visíveis
 
+  const [searchTerm, setSearchTerm] = useState("");
+
   // Fetch dos produtos
   useEffect(() => {
     fetch('https://fakestoreapi.com/products')
@@ -20,6 +23,17 @@ function App() {
       .catch(() => setError('Erro ao carregar produtos.'))
       .finally(() => setLoading(false));
   }, []);
+
+  // Filtrar produtos baseado no termo de busca
+  const filteredProducts = useMemo(() => {
+    if (!searchTerm.trim()) {
+      return products;
+    }
+    return products.filter( (product) => 
+                            product.title.toLowerCase()
+                            .includes( searchTerm.toLowerCase() )
+                          );
+  }, [searchTerm, products]);
 
   const handleLoadMore = () => {
     setVisibleCount((prev) => prev + ITEMS_PER_PAGE);
@@ -33,6 +47,8 @@ function App() {
       </header>
 
       <main>
+
+        <SearchProduct searchTerm={searchTerm} setSearchTerm={setSearchTerm} />
         
         { error && <div className="error">{error}</div> }
 
@@ -40,15 +56,15 @@ function App() {
           <div>Carregando...</div>
         ) : (
           <>
-            <ProductList products={products.slice(0, visibleCount)} />
+            <ProductList products={filteredProducts.slice(0, visibleCount)} />
             <Button
               onClick={handleLoadMore}
-              disabled={visibleCount >= products.length}
+              disabled={visibleCount >= filteredProducts.length}
               variant="outline"
               id="load-more"
             >
               
-              { visibleCount >= products.length
+              { visibleCount >= filteredProducts.length
                 ? 'Fim dos produtos'
                 : 'Carregar Mais' }
             </Button>
