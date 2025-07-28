@@ -1,0 +1,25 @@
+.top-nav {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    max-width: 1200px;
+    margin: 0 auto;
+}
+
+.top-nav .brand {
+    font-size: 24px;
+    font-weight: bold;
+    color: #0C8218;
+
+    & span {
+        color: #636363;
+    }
+}
+
+.top-nav .right {
+    font-weight: bold;
+    font-size: 14px;
+    display: flex;
+    align-items: center;
+    gap: 20px;
+}
